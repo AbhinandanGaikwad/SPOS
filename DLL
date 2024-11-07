@@ -1,0 +1,96 @@
+javac ArithmeticOperations.java
+javac -h . ArithmeticOperations.java
+gcc -I"%JAVA_HOME%\include" -I"%JAVA_HOME%\include\win64" -shared -o ArithmeticOperations.dll ArithmeticOperations.c
+java -Djava.library.path=. ArithmeticOperationsexp 8 : Write a program in VC++ to create Dynamic Link Library for any mathematical operation and write an application program to test it
+
+
+( make a tab with the name ArithmeticOperations.c )
+
+#include <jni.h>
+#include "ArithmeticOperations.h"
+
+// Function to add two integers
+JNIEXPORT jint JNICALL Java_ArithmeticOperations_add(JNIEnv *env, jobject obj, jint a, jint b) {
+    return a + b;  // Return the sum of a and b
+}
+
+// Function to subtract one integer from another
+JNIEXPORT jint JNICALL Java_ArithmeticOperations_subtract(JNIEnv *env, jobject obj, jint a, jint b) {
+    return a - b;  // Return the difference of a and b
+}
+
+// Function to multiply two integers
+JNIEXPORT jint JNICALL Java_ArithmeticOperations_multiply(JNIEnv *env, jobject obj, jint a, jint b) {
+    return a * b;  // Return the product of a and b
+}
+
+// Function to divide one integer by another
+JNIEXPORT jint JNICALL Java_ArithmeticOperations_divide(JNIEnv *env, jobject obj, jint a, jint b) {
+    if (b == 0) {
+        return 0; // Handle division by zero (returns 0)
+    }
+    return a / b;  // Return the quotient of a and b
+}
+
+( make a another tab with the name ArithmeticOperations.java )
+
+public class ArithmeticOperations {
+    // Native methods for arithmetic operations
+    public native int add(int a, int b);
+    public native int subtract(int a, int b);
+    public native int multiply(int a, int b);
+    public native int divide(int a, int b);
+
+    // Load the native library
+    static {
+        System.loadLibrary("ArithmeticOperations");
+    }
+
+    // Main method to test the arithmetic operations
+    public static void main(String[] args) {
+        ArithmeticOperations ops = new ArithmeticOperations();
+        
+        int a = 10;
+        int b = 5;
+
+        // Perform and display the results of the operations
+        System.out.println("Addition: " + ops.add(a, b));
+        System.out.println("Subtraction: " + ops.subtract(a, b));
+        System.out.println("Multiplication: " + ops.multiply(a, b));
+        System.out.println("Division: " + ops.divide(a, b));
+    }
+}
+
+( write this commands in terminal to execute tese codes )
+
+Step 3 commands for execution on terminal 
+    • javac ArithmeticOperations.java
+    • javac -h . ArithmeticOperations.java
+    • gcc -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -shared -o libArithmeticOperations.so ArithmeticOperations.c
+    • java -Djava.library.path=. ArithmeticOperations
+    
+( alternate USE IT IN CASE OF AN ERROR DURING EXECUTION )
+
+still if u face any errors  for execution of above program  follow this step .simply copy the following code on terminal 
+
+1 echo $JAVA_HOME
+
+2 export JAVA_HOME=/path/to/your/jdk
+
+3 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64  source ~/.bashrc
+
+4 sudo apt-get install default-jdk
+
+5. sudo update-alternatives --config java
+
+6 echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> ~/.bashrc
+7 source ~/.bashrc
+  
+8 ls $JAVA_HOME/include/jni.h
+9  ls $JAVA_HOME/include/linux/jni_md.h
+
+10 gcc -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -shared -o libArithmeticOperations.so ArithmeticOperations.c
+
+11 java -Djava.library.path=. ArithmeticOperations
+    
+
